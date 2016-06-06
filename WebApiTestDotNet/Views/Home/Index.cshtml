@@ -1,0 +1,25 @@
+﻿@using WebApiTestDotNet.Controllers
+@using System.Collections.Generic
+@model System.Linq.IQueryable<dynamic>
+
+
+    <div class="row">
+        <div class="col-md-4">
+        </div>
+        <div class="col-md-4">
+            <table class="table table-striped">
+                <thead>
+                    <tr><th>Название категории</th><th>Кол-во книг</th></tr>
+                </thead>
+                <tbody>
+                    @foreach(var c in Model)
+                    {
+                    @(Category)c
+                    <tr><td>@c.Name</td><td>@c.Book.Count</td></tr>
+                    }
+                    <tr><td>[Unknow]</td><td>@ViewBag.BookCount</td></tr>
+
+                </tbody>
+            </table>
+        </div>
+    </div>
