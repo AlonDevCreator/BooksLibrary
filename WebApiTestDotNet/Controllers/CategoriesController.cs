@@ -12,11 +12,13 @@ using WebApiTestDotNet.Models;
 
 namespace WebApiTestDotNet.Controllers
 {
+    [Authorize]
     public class CategoriesController : ApiController
     {
         private BookShopDBContainer db = new BookShopDBContainer();
 
         // GET: api/Categories
+        [Authorize(Roles = "User,Admin")]
         public IQueryable<object> GetCategories()
         {
             var categories = db.Categories
@@ -32,50 +34,55 @@ namespace WebApiTestDotNet.Controllers
                         ISBN = b.ISBN,
                     }).ToList()
                 });
-
+            
             return categories.AsQueryable<object>();
         }
 
         // GET: api/Categories/5
         [ResponseType(typeof(Category))]
+        [Authorize(Roles = "User,Admin")]
         public IHttpActionResult GetCategory(int id)
         {
             var category = db.Categories
-                .Where(b => b.Id == id)
-                .Select(c => new {
-                    Id = c.Id,
-                    Name = c.Name,
-                    DateOfCreating = c.DateOfCreating,
-                    Book = c.Book
-                    .Select(b => new {
-                        Id = b.Id,
-                        Name = b.Name,
-                        Author = b.Author,
-                        ISBN = b.ISBN,
-                    }).ToList()
-                });
-            
+                .SingleOrDefault(c => c.Id == id);
+                       
             if (category == null)
             {
                 return NotFound();
             }
 
-            return Ok(category);
+            var jsonCategory = new
+            {
+                Id = category.Id,
+                Name = category.Name,
+                DateOfCreating = category.DateOfCreating,
+                Book = category.Book
+                    .Select(b => new
+                    {
+                        Id = b.Id,
+                        Name = b.Name,
+                        Author = b.Author,
+                        ISBN = b.ISBN,
+                    })
+            };
+
+            return Ok(jsonCategory);
         }
 
         // PUT: api/Categories/5
         [ResponseType(typeof(void))]
-        public IHttpActionResult PutCategory(int id, Category category)
+        [Authorize(Roles = "User,Admin")]
+        public IHttpActionResult PutCategory(Category category) //--------------------------------
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            if (id != category.Id)
-            {
-                return BadRequest();
-            }
+            //if (id != category.Id)
+            //{
+            //    return BadRequest();
+            //}
 
             db.Entry(category).State = EntityState.Modified;
 
@@ -85,7 +92,7 @@ namespace WebApiTestDotNet.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!CategoryExists(id))
+                if (!CategoryExists(category.Id))
                 {
                     return NotFound();
                 }
@@ -100,7 +107,8 @@ namespace WebApiTestDotNet.Controllers
 
         // POST: api/Categories
         [ResponseType(typeof(Category))]
-        public IHttpActionResult PostCategory(Category category)
+        [Authorize(Roles = "User,Admin")]
+        public IHttpActionResult PostCategory(Category category) //--------------------------------
         {
             if (!ModelState.IsValid)
             {
@@ -115,7 +123,7 @@ namespace WebApiTestDotNet.Controllers
 
         // DELETE: api/Categories/5
         [ResponseType(typeof(Category))]
-        public IHttpActionResult DeleteCategory(int id)
+        public IHttpActionResult DeleteCategory(int id) //--------------------------------
         {
             Category category = db.Categories.Find(id);
             if (category == null)
@@ -129,7 +137,7 @@ namespace WebApiTestDotNet.Controllers
             return Ok(category);
         }
 
-        protected override void Dispose(bool disposing)
+        protected override void Dispose(bool disposing) //--------------------------------
         {
             if (disposing)
             {
@@ -138,7 +146,7 @@ namespace WebApiTestDotNet.Controllers
             base.Dispose(disposing);
         }
 
-        private bool CategoryExists(int id)
+        private bool CategoryExists(int id) //--------------------------------
         {
             return db.Categories.Count(e => e.Id == id) > 0;
         }

@@ -83,7 +83,7 @@ ADD CONSTRAINT [FK_BookCategory_Book]
     FOREIGN KEY ([Book_Id])
     REFERENCES [dbo].[Books]
         ([Id])
-    ON DELETE NO ACTION ON UPDATE NO ACTION;
+    ON DELETE CASCADE ON UPDATE NO ACTION;
 GO
 
 -- Creating foreign key on [Category_Id] in table 'BookCategory'
@@ -92,7 +92,7 @@ ADD CONSTRAINT [FK_BookCategory_Category]
     FOREIGN KEY ([Category_Id])
     REFERENCES [dbo].[Categories]
         ([Id])
-    ON DELETE NO ACTION ON UPDATE NO ACTION;
+    ON DELETE CASCADE ON UPDATE NO ACTION;
 GO
 
 -- Creating non-clustered index for FOREIGN KEY 'FK_BookCategory_Category'

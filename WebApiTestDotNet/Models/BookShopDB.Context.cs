@@ -20,10 +20,10 @@ namespace WebApiTestDotNet.Models
         {
         }
     
-        //protected override void OnModelCreating(DbModelBuilder modelBuilder) 
-        //{
-        //    throw new UnintentionalCodeFirstException();
-        //}
+        protected override void OnModelCreating(DbModelBuilder modelBuilder)
+        {
+            throw new UnintentionalCodeFirstException();
+        }
     
         public virtual DbSet<Book> Books { get; set; }
         public virtual DbSet<Category> Categories { get; set; }

@@ -1,6 +1,6 @@
 ﻿@using WebApiTestDotNet.Controllers
-@using System.Collections.Generic
-@model System.Linq.IQueryable<dynamic>
+@using WebApiTestDotNet.Models
+@model System.Collections.Generic.List<CategoryModel>
 
 
     <div class="row">
@@ -14,7 +14,6 @@
                 <tbody>
                     @foreach(var c in Model)
                     {
-                    @(Category)c
                     <tr><td>@c.Name</td><td>@c.Book.Count</td></tr>
                     }
                     <tr><td>[Unknow]</td><td>@ViewBag.BookCount</td></tr>

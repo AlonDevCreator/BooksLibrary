@@ -6,7 +6,7 @@
     <edmx:Diagrams>
       <Diagram DiagramId="b7de97d4cad5498a9bd25a222e7ca8cf" Name="Diagram1" >
         <EntityTypeShape EntityType="BookShopDB.Book" Width="1.5" PointX="0.75" PointY="0.875" />
-        <EntityTypeShape EntityType="BookShopDB.Category" Width="1.5" PointX="3" PointY="1" />
+        <EntityTypeShape EntityType="BookShopDB.Category" Width="1.5" PointX="6.75" PointY="1.5" />
         <AssociationConnector Association="BookShopDB.BookCategory" />
       </Diagram>
     </edmx:Diagrams>

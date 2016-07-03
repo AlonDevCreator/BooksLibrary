@@ -100,7 +100,8 @@
         </EntityType>
         <Association Name="BookCategory">
           <End Type="BookShopDB.Book" Role="Book" Multiplicity="*" />
-          <End Type="BookShopDB.Category" Role="Category" Multiplicity="*" />
+          <End Type="BookShopDB.Category" Role="Category" Multiplicity="*" >
+          </End>
         </Association>
       </Schema>
     </edmx:ConceptualModels>
