@@ -1,0 +1,23 @@
+name: Daily Commit
+
+on:
+  schedule:
+    - cron: '0 6 * * *'  # Щодня о 6:00 UTC (можна змінити)
+  workflow_dispatch:      # Дозволяє запуск вручну
+
+jobs:
+  commit:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v3
+
+      - name: Make a daily commit
+        run: |
+          echo "Update: $(date)" >> log.txt
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add log.txt
+          git commit -m "Daily update: $(date)" || echo "No changes to commit"
+          git push
