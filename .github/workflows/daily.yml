@@ -1,23 +1,29 @@
 name: Daily Commit
-
 on:
   schedule:
-    - cron: '0 6 * * *'  # Щодня о 6:00 UTC (можна змінити)
-  workflow_dispatch:      # Дозволяє запуск вручну
+    - cron: '0 9 * * *'
+  workflow_dispatch:
 
 jobs:
   commit:
     runs-on: ubuntu-latest
-
     steps:
       - name: Checkout repo
         uses: actions/checkout@v3
-
-      - name: Make a daily commit
+        
+      - name: Make random commits
         run: |
-          echo "Update: $(date)" >> log.txt
-          git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add log.txt
-          git commit -m "Daily update: $(date)" || echo "No changes to commit"
+          COMMIT_COUNT=$((RANDOM % 5 + 1))  # 1 до 5 комітів
+          echo "Making $COMMIT_COUNT commits today"
+          
+          git config user.name "AlonDevCreator"
+          git config user.email "barabashaljona@gmail.com"
+          
+          for i in $(seq 1 $COMMIT_COUNT); do
+            echo "Update $i: $(date)" >> log.txt
+            git add log.txt
+            git commit -m "Update $i: $(date)"
+            sleep 2  # Невелика пауза між комітами
+          done
+          
           git push
